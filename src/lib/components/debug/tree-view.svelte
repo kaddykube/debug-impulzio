@@ -16,7 +16,7 @@
   import type { Calculation } from '$lib/types/debug';
 
     export let tree_data: TreeData = [];
-    export const filter: Map<keyof Calculation, boolean> | undefined = undefined;
+    export let filter: Map<keyof Calculation, boolean> | undefined;
 </script>
 
 <Accordion.Root multiple class="w-full">
@@ -33,7 +33,7 @@
                         ></Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content>
-                    <TreeViewItem {item}></TreeViewItem>
+                    <TreeViewItem {item} filter={filter}></TreeViewItem>
                 </Accordion.Content>
             </Accordion.Item>
         {:else}
@@ -41,7 +41,7 @@
                 <!-- JAHR -->
                 <div class="py-4">{item.cols.name}</div>
                 <Accordion.Item value={item.cols.name ? item.cols.name.toString() : ''} class="group px-1.5">
-                    <TreeViewItem item={item.cols}></TreeViewItem>
+                    <TreeViewItem item={item.cols} filter={filter}></TreeViewItem>
                 </Accordion.Item>
             {/if}
             <Accordion.Item value={item.name ? item.name.toString() : ''}>

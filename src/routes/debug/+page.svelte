@@ -65,11 +65,12 @@
   }
 
   function handleFilter(event: CustomEvent<Map<keyof Calculation, boolean>>){
-    console.log(event.detail);
+    //console.log(event.detail); 
+    filterFields = event.detail;
   }
 </script>
 
-<div class="flex gap-2">
+<div class="flex gap-10">
   <div class="w-3/4 flex-col flex max-h-[90vh]">
     <p class="text-lg pl-2">Berechnungen Steuer&Liqui</p>
 
@@ -77,18 +78,17 @@
     <div
       class="border-2 border-dark-10 rounded-3xl px-10 pb-10 mb-2 overflow-y-auto max-h-[70vh]"
     >
-      <TreeView tree_data={treeContent} filter={filterFields}/>
+      <TreeView tree_data={treeContent} bind:filter={filterFields}/>
     </div>
     <p class="text-lg pl-2">Auswertung Mitarbeiter</p>
     <div
       class="border-2 border-dark-10 rounded-3xl px-10 pb-10 overflow-y-auto h-[20vh]"
     >
-      <TreeView tree_data={[]} />
+      <TreeView tree_data={[]} filter={undefined}/>
     </div>
   </div>
 
   <div class=" w-1/4 h-fit">
-    <p class="text-lg pl-2">Erfassen von Logs</p>
     <div
       class="bg-slate-100 rounded-3xl p-4 border-[1px] border-dark-10 shadow-lg"
     >
