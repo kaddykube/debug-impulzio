@@ -13,8 +13,10 @@
 <script lang="ts">
     import { Accordion } from 'bits-ui';
     import TreeViewItem from './tree-view-item.svelte';
+  import type { Calculation } from '$lib/types/debug';
 
     export let tree_data: TreeData = [];
+    export const filter: Map<keyof Calculation, boolean> | undefined = undefined;
 </script>
 
 <Accordion.Root multiple class="w-full">

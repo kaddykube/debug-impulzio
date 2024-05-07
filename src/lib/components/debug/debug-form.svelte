@@ -82,7 +82,7 @@
 </script>
 
 <form id="calculator" method="POST" use:enhance class="flex-col">
-  <p class="uppercase mb-1 font-bold mt-1">Kennzahlen *</p>
+  <p class=" mb-1 text-lg mt-1">Kennzahlen</p>
   <NumberInput
     bind:value={$form.companyTaxRate}
     label="Unternehmens&shy;steuersatz %"
@@ -127,7 +127,7 @@
   <div
     class="bg-slate-100 rounded-3xl px-4 py-2 border-white border-2 mt-10 shadow-lg"
   >
-    <p class="uppercase mb-4 font-bold">Mitarbeiter *</p>
+    <p class="mb-4 text-lg">Mitarbeiter</p>
     <p>Anzahl Mitarbeiter {list.length}</p>
     <div class="max-h-[100px] overflow-auto flex flex-wrap">
      

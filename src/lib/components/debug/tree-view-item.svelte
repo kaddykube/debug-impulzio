@@ -6,11 +6,11 @@
 
 <slot />
 {#if item?.cols}
-  <div class="flex border-collapse flex-wrap gap-2 w-full">
+  <div class="flex border-collapse flex-wrap gap-2 w-full pt-2">
     {#each Object.entries(item?.cols) as [title, value]}
       {#if title !== "month"}
         <div
-          class="flex-col border-y-2 border-x-[1px] border-dark-10 rounded-xl text-center break-words"
+          class="flex-col border-y-2 border-x-[1px] border-dark-10 rounded-xl text-center break-words overflow-hidden"
         >
           <div class="border-b-2"><p class="p-2 bg-gray">{title}</p></div>
           <p class="p-2">{value}</p>
