@@ -3,7 +3,16 @@
   import NumberInput from "$lib/components/number-input.svelte";
   import RangeSlider from "$lib/components/range-slider.svelte";
   import { superForm } from "sveltekit-superforms";
+  import { getCalculations } from '$lib/api/calculation';
+  import { createEventDispatcher } from "svelte";
+  import {
+    CalculationParamsSchema,
+    type Member,
+    type CalculationParams,
+  } from "$lib/types";
   import { zod } from "sveltekit-superforms/adapters";
+
+  const dispatch = createEventDispatcher();
 
   let employerContribution = 50;
   let employeeContribution = 100;
@@ -11,31 +20,26 @@
   let isManagementChecked = false;
   let newItemDate = new Date("yyyy-MM");
 
-  let list: {
-    text: string;
-    isManagement: boolean;
-    birthDate: { year: number; month: number };
-    employeeContribution: number;
-    employerContribution: number;
-  }[] = [];
+  let list: Member[] = [];
 
-  const formData = {
+  const formData: CalculationParams = {
     members: list,
-    companyTaxRate: 0,
-    commitmentInterest: 0,
+    companyTaxRate: 20,
+    commitmentInterest: 4,
     investmentInterest: 0,
   };
 
   const { form, enhance, submit } = superForm(formData, {
     id: "calculator",
     SPA: true,
-    //validators: zod(LiquidityCalcParamsSchema),
+    validators: zod(CalculationParamsSchema),
     taintedMessage: false,
     invalidateAll: false,
     resetForm: false,
     onUpdated: async ({ form }) => {
       if (form.valid) {
-        //const data = await calcLiquidity(form.data);
+        const data = await getCalculations(form.data);
+        dispatch('submit', data);
       }
     },
   });
@@ -103,10 +107,30 @@
       tooltipText={`${$form.commitmentInterest}%`}
     />
   </div>
-  <div class="bg-slate-100 rounded-3xl p-2 border-white border-2 mt-10">
+  <div class="flex w-full my-4">
+    <NumberInput
+      bind:value={$form.investmentInterest}
+      label="Investitionszins %"
+      step={0.1}
+      min={0}
+      max={10}
+    />
+    <RangeSlider
+      bind:value={$form.investmentInterest}
+      class="grow"
+      step={0.1}
+      min={1}
+      max={10}
+      tooltipText={`${$form.investmentInterest}%`}
+    />
+  </div>
+  <div
+    class="bg-slate-100 rounded-3xl px-4 py-2 border-white border-2 mt-10 shadow-lg"
+  >
     <p class="uppercase mb-4 font-bold">Mitarbeiter *</p>
+    <p>Anzahl Mitarbeiter {list.length}</p>
     <div class="max-h-[100px] overflow-auto flex flex-wrap">
-        <p>Anzahl Mitarbeiter {list.length}</p>
+     
       {#each list as item, index}
         <div
           class={`flex flex-wrap border-2 p-2  w-5/6 rounded-2xl mb-1 bg-white ${item.isManagement && "!bg-slate-200"} [&>span]:pl-2`}
@@ -127,6 +151,7 @@
     <div
       class="flex flex-col gap-1 items-end mt-4 w-full border-2 p-2 rounded-3xl border-white"
     >
+    <p class="w-full mb-2">Mitarbeiter hinzufügen:</p>
       <div class="flex w-full">
         <NumberInput
           bind:value={employeeContribution}
@@ -161,13 +186,18 @@
           tooltipText={`${employerContribution}€`}
         />
       </div>
+
+      <p class="text-dark text-xs w-full text-left mt-2">
+        Bezeichnung (optional)
+      </p>
       <input
         bind:value={newItemName}
         type="text"
-        placeholder="Bezeichnung Mitglied.."
-        class=" w-full mt-4"
+        placeholder="Bezeichnung"
+        class=" w-full mb-1"
       />
-      <input bind:value={newItemDate} type="month" class=" w-full my-1" />
+      <p class="text-dark text-xs w-full text-left">Geburtsdatum</p>
+      <input bind:value={newItemDate} type="month" class=" w-full mb-1" />
       <label class="w-full flex justify-start mb-4">
         <input
           type="checkbox"
