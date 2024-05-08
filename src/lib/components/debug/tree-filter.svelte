@@ -1,29 +1,30 @@
 <script lang="ts">
   import type { Calculation } from "$lib/types/debug";
-
-  import { createEventDispatcher } from "svelte";
-
-  export let filter: Map<keyof Calculation, boolean> | undefined;
-  const dispatch = createEventDispatcher();
+  import { filterFields } from "$lib/utils/debug-filter";
 
   function handleCheckbox(temp: keyof Calculation) {
-    if (filter) {
-      const check = filter?.get(temp);
-      filter.set(temp, !check);
-      
-    dispatch("change", filter);
-    }
+      const check = $filterFields.get(temp);
+      filterFields.update((m) => m.set(temp, !check));
   }
 </script>
-<div class="flex w-full flex-wrap p-2">
-{#if filter}
-  {#each [...filter.keys()] as temp}
 
-    <label>
-        <input checked={filter.get(temp)} type="checkbox" class="hidden peer" 
-        on:change={() => handleCheckbox(temp)}/>
-        <div class="peer-checked:bg-dark peer-checked:text-white p-1 px-4 border-[1px] m-1 rounded-full">{temp}</div>
-    </label>
-  {/each}
-{/if}
+<p class="pl-2">Filter:</p>
+<div class="flex w-full flex-wrap mb-2 ">
+  {#if $filterFields}
+    {#each $filterFields as [key, value]}
+      <label>
+        <input
+          checked={value}
+          type="checkbox"
+          class="hidden peer"
+          on:change={() => handleCheckbox(key)}
+        />
+        <div
+          class="peer-checked:bg-dark peer-checked:text-white p-1 px-4 border-[1px] m-1 rounded-full"
+        >
+          {key}
+        </div>
+      </label>
+    {/each}
+  {/if}
 </div>

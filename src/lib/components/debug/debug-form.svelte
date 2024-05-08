@@ -18,7 +18,7 @@
   let employeeContribution = 100;
   let newItemName = "";
   let isManagementChecked = false;
-  let newItemDate = new Date("yyyy-MM");
+  let newItemDate = '2000-01';
 
   let list: Member[] = [];
 
@@ -44,10 +44,10 @@
     },
   });
 
-  function formatBirthDate(date: Date) {
+  function formatBirthDate(date: string) {
     let data = {
-      year: Number(newItemDate.toString().slice(0, 4)),
-      month: Number(newItemDate.toString().slice(5, 8)),
+      year: Number(newItemDate.slice(0, 4)),
+      month: Number(newItemDate.slice(5, 8)),
     };
     if (isNaN(data.year) || isNaN(data.month)) {
       return { year: 0, month: 0 };
@@ -71,7 +71,7 @@
     employerContribution = 50;
     employeeContribution = 100;
     newItemName = "";
-    newItemDate = new Date("yyyy-MM");
+    newItemDate = '2000-01';
     isManagementChecked = false;
   }
 

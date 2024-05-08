@@ -2,19 +2,11 @@
   import type { PageServerData } from "./$types";
   import TreeView from "$lib/components/debug/tree-view.svelte";
   import DebugForm from "$lib/components/debug/debug-form.svelte";
-  import type { Calculation, YEAR } from "$lib/types/debug";
+  import type {  YEAR } from "$lib/types/debug";
   import TreeFilter from "$lib/components/debug/tree-filter.svelte";
 
   export let data: PageServerData;
 
-  let filterFields = new Map<keyof Calculation, boolean>([
-        ["liquidityEU", true],
-        ["liquidityUkasse", true],
-        ["liquidityImpPSVKosten", true],
-        ["bruttoAuszahlungMA", true],
-        ["liquidityInclAuszahlung", true],
-        ["liquidityAllKumVerzinst", true]
-    ]);
 
   let treeContent = data.liqui.map((value) => {
     return {
@@ -61,30 +53,23 @@
         ],
       };
     });
-    console.log(event.detail.liqui);
   }
 
-  function handleFilter(event: CustomEvent<Map<keyof Calculation, boolean>>){
-    //console.log(event.detail); 
-    filterFields = event.detail;
-  }
 </script>
-
 <div class="flex gap-10">
   <div class="w-3/4 flex-col flex max-h-[90vh]">
     <p class="text-lg pl-2">Berechnungen Steuer&Liqui</p>
-
-    <TreeFilter filter={filterFields} on:change={handleFilter}></TreeFilter>
+    <TreeFilter></TreeFilter>
     <div
       class="border-2 border-dark-10 rounded-3xl px-10 pb-10 mb-2 overflow-y-auto max-h-[70vh]"
     >
-      <TreeView tree_data={treeContent} bind:filter={filterFields}/>
+      <TreeView tree_data={treeContent} filter/>
     </div>
     <p class="text-lg pl-2">Auswertung Mitarbeiter</p>
     <div
       class="border-2 border-dark-10 rounded-3xl px-10 pb-10 overflow-y-auto h-[20vh]"
     >
-      <TreeView tree_data={[]} filter={undefined}/>
+    <TreeView tree_data={[]} filter={false}/>
     </div>
   </div>
 
