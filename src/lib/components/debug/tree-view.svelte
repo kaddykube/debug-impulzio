@@ -26,7 +26,7 @@
             <Accordion.Item value={item.name ? item.name.toString() : ''} class="group   px-1.5">
                 <Accordion.Header class="border-b border-dark-10">
                     <Accordion.Trigger
-                        class="flex w-full flex-1 items-center justify-between py-5 text-[15px] font-medium transition-all [&>span]:rotate-180 [&[data-state=open]>span]:rotate-0 "
+                        class="flex w-full flex-1 items-center justify-between py-2 text-[15px] font-medium transition-all [&>span]:rotate-180 [&[data-state=open]>span]:rotate-0 "
                         >{item.name}
                         <span class="inline-flex items-center justify-center rounded-[7px] bg-transparent transition-all hover:bg-dark-10"
                             >^</span
@@ -39,7 +39,7 @@
         {:else}
             {#if item.cols}
                 <!-- JAHR -->
-                <div class="py-4">{item.cols.name}</div>
+                <div class="py-4 pt-8">{item.cols.name}</div>
                 <Accordion.Item value={item.cols.name ? item.cols.name.toString() : ''} class="group px-1.5">
                     <TreeViewItem item={item.cols} filter={filter}></TreeViewItem>
                 </Accordion.Item>
@@ -47,7 +47,7 @@
             <Accordion.Item value={item.name ? item.name.toString() : ''}>
                 <Accordion.Header class="border-b border-dark-10">
                     <Accordion.Trigger
-                        class="flex w-full flex-1 items-center justify-between py-5 text-[15px] font-medium transition-all [&>span]:rotate-180 [&[data-state=open]>span]:rotate-0 "
+                        class="flex w-full flex-1 items-center justify-between py-2 text-[15px] font-medium transition-all [&>span]:rotate-180 [&[data-state=open]>span]:rotate-0 "
                         >{item.name}
                         <span class="inline-flex items-center justify-center rounded-[7px] bg-transparent transition-all hover:bg-dark-10"
                             >^</span

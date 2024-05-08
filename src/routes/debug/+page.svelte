@@ -8,15 +8,19 @@
 
   let liquiContent:
     | {
-        name: number;
+        name: string;
         children: {
           name: string;
           children: any;
           cols: {
             name: string;
             cols: Calculation;
-          };
+          } | undefined;
         }[];
+        cols: {
+            name: string;
+            cols: Calculation;
+          } | undefined;
       }[]
     | undefined;
 
@@ -43,7 +47,7 @@
   ) {
     liquiContent = event.detail.liqui.map((value) => {
       return {
-        name: Number(value.year),
+        name: "...",
         children: [
           {
             name: "Berechnung Monate",
@@ -55,9 +59,10 @@
                   };
                 })
               : null,
-            cols: { name: "Berechnung Jahr", cols: value.calculation },
+              cols: undefined,
           },
         ],
+        cols: { name: "Berechnung Jahr "+value.year, cols: value.calculation },
       };
     });
 
