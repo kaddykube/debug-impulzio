@@ -9,7 +9,7 @@ export const nodes = [
 export const server_loads = [];
 
 export const dictionary = {
-		"/debug": [~2]
+		"/debug": [2]
 	};
 
 export const hooks = {

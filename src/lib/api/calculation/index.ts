@@ -1,13 +1,26 @@
 //import { PUBLIC_API_URL } from '$env/static/public';
-import type { CalculationParams } from "$lib/types";
+import type { CalculationParams, MemberEvaluation } from "$lib/types";
 import type { Calculation, YEAR } from "$lib/types/debug";
 import type { PageServerData } from "../../../routes/debug/$types";
 export let data: PageServerData;
 
 export interface ApiResponse {
   liqui: YEAR[];
-  members: never[];
+  members: MemberEvaluation[];
 }
+
+const DEFAULT_MemberEvaluation: MemberEvaluation = {
+  isManagement: false,
+  birthDate: {
+    year: 1980,
+    month: 2,
+  },
+  employeeContribution: 100,
+  employerContribution: 50,
+  amountDeferredCompensation: 24000,
+  amountEmployerContribution: 12000,
+  text: "Mitarbeiter id",
+};
 
 const DEFAULT_GET_Calculation_14: Calculation = {
   liquidityEU: 10,
@@ -57,7 +70,13 @@ export async function getCalculations(
   let DEFAULT_PARAMS: YEAR[] = [];
   DEFAULT_PARAMS.push(DEFAULT_PARAMS_YEAR_2014);
   DEFAULT_PARAMS.push(DEFAULT_PARAMS_YEAR_2013);
-  const response = { liqui: DEFAULT_PARAMS, members: [] };
+
+  let DEFAULT_M: MemberEvaluation[] = [];
+  DEFAULT_M.push(DEFAULT_MemberEvaluation);
+  DEFAULT_M.push(DEFAULT_MemberEvaluation);
+  DEFAULT_M.push(DEFAULT_MemberEvaluation);
+
+  const response = { liqui: DEFAULT_PARAMS, members: DEFAULT_M };
 
   return await response;
 }
